@@ -1,0 +1,13 @@
+#root {
+  width: 100%;
+}
+.container {
+  display: block;
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+p {
+  font-size: 30px;
+}
