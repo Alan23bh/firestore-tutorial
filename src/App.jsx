@@ -1,6 +1,12 @@
 import "./App.css";
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { useState, useEffect } from "react";
 
 const firebaseConfig = {
@@ -14,9 +20,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 function App() {
   const [name, setName] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     async function testFirestore() {
@@ -39,9 +49,61 @@ function App() {
     testFirestore();
   }, []);
 
+  // Sign Up
+  const signUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setUser(userCredential.user);
+        console.log("User signed up:", userCredential.user);
+      })
+      .catch((error) => {
+        console.error("Error signing up:", error);
+      })
+      .catch((error) => {
+        console.error("Error signing up:", error);
+      });
+  };
+
+  // Sign In
+  const signIn = () => {
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      setUser(userCredential.user);
+      console.log("User sign up:", userCredential.user);
+    });
+  };
+
+  // Sign Out
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        setUser(null);
+        console.log("User signed out");
+      })
+      .catch((error) => {
+        console.error("Error signing out", error);
+      });
+  };
+
   return (
     <>
-      <p>Firestore Check {name}</p>
+      <p>Firestore Authentication</p>
+      <div className="container">
+        <input
+          type="text"
+          placeholder="Email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <input type="password" placeholder="Password" value={password} />
+        <button onClick={signUp}>Sign Up</button>
+        <button onClick={signIn}>Sign In</button>
+        <button onClick={logOut}>Log Out</button>
+      </div>
+      {user && (
+        <div>
+          <p>Logging in as: {user.email}</p>
+        </div>
+      )}
     </>
   );
 }
