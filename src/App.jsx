@@ -94,7 +94,12 @@ function App() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-        <input type="password" placeholder="Password" value={password} />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
         <button onClick={signUp}>Sign Up</button>
         <button onClick={signIn}>Sign In</button>
         <button onClick={logOut}>Log Out</button>
