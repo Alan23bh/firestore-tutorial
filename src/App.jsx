@@ -66,10 +66,14 @@ function App() {
 
   // Sign In
   const signIn = () => {
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      setUser(userCredential.user);
-      console.log("User sign up:", userCredential.user);
-    });
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setUser(userCredential.user);
+        console.log("User has signed in :", userCredential.user);
+      })
+      .catch((error) => {
+        console.error("Error signing in", error);
+      });
   };
 
   // Sign Out
