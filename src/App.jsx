@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { db, auth, app } from "./lib/firebase";
+import Todo from "./components/Todo";
 
 function App() {
   //const [name, setName] = useState();
@@ -115,6 +116,7 @@ function App() {
       </div>
       {user && (
         <div>
+          <Todo />
           <p>Logged in as: {user.email}</p>
           <button onClick={logOut}>Log Out</button>
         </div>

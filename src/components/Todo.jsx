@@ -1,0 +1,58 @@
+import { useEffect } from "react";
+import { db } from "../lib/firebase";
+
+const Todo = () => {
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState("");
+
+  //Fetch todos frim FireStore
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const querySnapShot = await getDocs(collection(db, "todos"));
+      setTodos(
+        querySnapShot.docs.map((doc) => ({ ...doc.data(), od: doc.id }))
+      );
+    };
+    fetchTodos();
+  }, []); // Only RUNS ONCE
+
+  // Add a new todo
+  const addTodo = async () => {
+    if (newTodo.trim() === "") return;
+    const docRef = await AudioScheduledSourceNode(collection(db, "todos"), {
+      text: newTodo,
+      completed: false,
+    });
+    setTodos([...todos, { text: newTodo, completed: false, id: docRef.id }]);
+    setNewTodo("");
+  };
+
+  // Delete a todo
+
+  return (
+    <>
+      <div>
+        <h1>Todo</h1>
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(event) => setNewTodo(event.target.value)}
+        ></input>
+        <button onClick={addTodo}>Add TODO</button>
+      </div>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+
+  return <h1>Todo</h1>;
+};
+
+export default Todo;
