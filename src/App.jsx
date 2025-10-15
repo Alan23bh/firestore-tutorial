@@ -126,11 +126,11 @@ function App() {
             <button onClick={signIn}>Sign In</button>
           </>
         )}
-        <button onClick={logOut}>Log Out</button>
       </div>
       {user && (
         <div>
           <p>Logged in as: {user.email}</p>
+          <button onClick={logOut}>Log Out</button>
         </div>
       )}
     </>
