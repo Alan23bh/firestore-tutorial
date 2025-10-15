@@ -4,6 +4,7 @@ import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -17,37 +18,52 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
 function App() {
-  const [name, setName] = useState();
+  //const [name, setName] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    async function testFirestore() {
-      const docRef = doc(db, "testCollection", "testDocument");
-      const docSnap = await getDoc(docRef);
-
-      // Updates specific fields
-
-      await updateDoc(docRef, {
-        age: "9002",
-        name: "Marry McBarry",
-      });
-
-      if (docSnap.exists()) {
-        setName(docSnap.data().name);
+    // Checks the user's authentication state when the app loads
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        // User is signed in
+        setUser(currentUser);
       } else {
-        console.log("No such document");
+        // User is signed out
+        setUser(null);
       }
-    }
-    testFirestore();
-  }, []);
+    });
+    return () => unsubscribe();
+  });
+
+  // useEffect(() => {
+  //   async function testFirestore() {
+  //     const docRef = doc(db, "testCollection", "testDocument");
+  //     const docSnap = await getDoc(docRef);
+
+  //     // Updates specific fields
+
+  //     await updateDoc(docRef, {
+  //       age: "9002",
+  //       name: "Marry McBarry",
+  //     });
+
+  //     if (docSnap.exists()) {
+  //       setName(docSnap.data().name);
+  //     } else {
+  //       console.log("No such document");
+  //     }
+  //   }
+  //   testFirestore();
+  // }, []);
 
   // Sign Up
   const signUp = () => {
@@ -104,13 +120,17 @@ function App() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <button onClick={signUp}>Sign Up</button>
-        <button onClick={signIn}>Sign In</button>
+        {!user && (
+          <>
+            <button onClick={signUp}>Sign Up</button>
+            <button onClick={signIn}>Sign In</button>
+          </>
+        )}
         <button onClick={logOut}>Log Out</button>
       </div>
       {user && (
         <div>
-          <p>Logging in as: {user.email}</p>
+          <p>Logged in as: {user.email}</p>
         </div>
       )}
     </>
