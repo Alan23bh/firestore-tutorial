@@ -108,20 +108,20 @@ function App() {
     <>
       <p>Firestore Authentication</p>
       <div className="container">
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
         {!user && (
           <>
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
             <button onClick={signUp}>Sign Up</button>
             <button onClick={signIn}>Sign In</button>
           </>
