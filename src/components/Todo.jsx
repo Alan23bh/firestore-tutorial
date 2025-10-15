@@ -21,7 +21,7 @@ const Todo = () => {
   // Add a new todo
   const addTodo = async () => {
     if (newTodo.trim() === "") return;
-    const docRef = await AudioScheduledSourceNode(collection(db, "todos"), {
+    const docRef = await addDoc(collection(db, "todos"), {
       text: newTodo,
       completed: false,
     });
