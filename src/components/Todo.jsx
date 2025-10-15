@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 const Todo = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
-  //Fetch todos frim FireStore
+  //Fetch todos from FireStore
 
   useEffect(() => {
     const fetchTodos = async () => {
