@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 const Todo = () => {
   const [todos, setTodos] = useState([]);
@@ -12,7 +18,7 @@ const Todo = () => {
     const fetchTodos = async () => {
       const querySnapShot = await getDocs(collection(db, "todos"));
       setTodos(
-        querySnapShot.docs.map((doc) => ({ ...doc.data(), od: doc.id }))
+        querySnapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
       );
     };
     fetchTodos();
@@ -30,6 +36,10 @@ const Todo = () => {
   };
 
   // Delete a todo
+  const deleteTodo = async (id) => {
+    await deleteDoc(doc(db, "todos", id));
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
 
   return (
     <>

@@ -93,10 +93,10 @@ function App() {
 
   return (
     <>
-      <p>Firestore Authentication</p>
-      <div className="container">
+      <div>
         {!user && (
           <>
+            <p>Firestore Authentication</p>
             <input
               type="text"
               placeholder="Email"
