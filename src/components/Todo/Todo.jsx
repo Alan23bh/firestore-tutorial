@@ -101,7 +101,9 @@ const Todo = () => {
                 <button onClick={() => startEdit(todo.id, todo.text)}>
                   Edit
                 </button>
-                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+                <button className="delete" onClick={() => deleteTodo(todo.id)}>
+                  Delete
+                </button>
               </>
             )}
           </li>

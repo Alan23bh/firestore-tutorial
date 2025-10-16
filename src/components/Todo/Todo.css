@@ -2,3 +2,18 @@
   background-color: green;
   color: white;
 }
+.delete {
+  background-color: red;
+  color: white;
+}
+input {
+  padding: 0.1rem 1rem;
+  font-size: 1.3rem;
+}
+li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
