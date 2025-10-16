@@ -74,19 +74,20 @@ const Todo = () => {
           type="text"
           value={newTodo}
           onChange={(event) => setNewTodo(event.target.value)}
-        ></input>
+        />
         <button onClick={addTodo}>Add TODO</button>
       </div>
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            {editId.Id === todo.id ? (
+            {editId === todo.id ? (
               <>
                 <input
                   type="text"
                   value={editText}
                   onChange={(event) => setEditText(event.target.value)}
                 ></input>
+                <button onClick={() => saveEdit(editId, editText)}>Save</button>
               </>
             ) : (
               <>
@@ -102,8 +103,6 @@ const Todo = () => {
       </ul>
     </>
   );
-
-  return <h1>Todo</h1>;
 };
 
 export default Todo;
