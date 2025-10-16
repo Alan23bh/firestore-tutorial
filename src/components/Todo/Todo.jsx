@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db } from "../lib/firebase";
+import { db } from "../../lib/firebase";
 import {
   collection,
   addDoc,
@@ -8,6 +8,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+import "./Todo.css";
 
 const Todo = () => {
   const [todos, setTodos] = useState([]);
@@ -87,7 +88,12 @@ const Todo = () => {
                   value={editText}
                   onChange={(event) => setEditText(event.target.value)}
                 ></input>
-                <button onClick={() => saveEdit(editId, editText)}>Save</button>
+                <button
+                  className="save"
+                  onClick={() => saveEdit(editId, editText)}
+                >
+                  Save
+                </button>
               </>
             ) : (
               <>
