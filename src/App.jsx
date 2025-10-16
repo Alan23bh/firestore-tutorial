@@ -8,7 +8,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { db, auth, app } from "./lib/firebase";
+import { auth } from "./lib/firebase";
 import Todo from "./components/Todo";
 
 function App() {

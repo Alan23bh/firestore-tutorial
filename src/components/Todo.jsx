@@ -6,11 +6,14 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 
 const Todo = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [editText, setEditText] = useState("");
 
   //Fetch todos from FireStore
 
@@ -41,6 +44,28 @@ const Todo = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  // Start editing a todo
+  const startEdit = (id, currentText) => {
+    setEditId(id);
+    setEditText(currentText);
+  };
+
+  // Save the edited Todo
+
+  const saveEdit = async (id) => {
+    const docRef = doc(db, "todos", id);
+    await updateDoc(docRef, {
+      text: editText,
+    });
+
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, text: editText } : todo))
+    );
+
+    setEditId(null); // Exiting the edit mode
+    setEditText(""); // Clearing the edit text
+  };
+
   return (
     <>
       <div>
@@ -55,8 +80,23 @@ const Todo = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            {todo.text}
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            {editId.Id === todo.id ? (
+              <>
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={(event) => setEditText(event.target.value)}
+                ></input>
+              </>
+            ) : (
+              <>
+                {todo.text}
+                <button onClick={() => startEdit(todo.id, todo.text)}>
+                  Edit
+                </button>
+                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+              </>
+            )}
           </li>
         ))}
       </ul>
